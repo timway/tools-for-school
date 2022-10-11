@@ -26,10 +26,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v3.1.1
         with:
-          dockerfile: jcoco/Containerfile
-          path: jcoco
+          build-contexts: jcoco
+          file: jcoco/Containerfile
           push: true
-          repository: ${{ github.actor }}/${{ github.repository }}
           tags: |
-            ghcr.io/${{ github.repository }}:${{ github.ref }}
-            ghcr.io/${{ github.repository }}:latest
+            ${{ github.repository }}:latest
