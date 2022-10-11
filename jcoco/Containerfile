@@ -1,9 +1,12 @@
-FROM quay.io/centos/centos:7
+FROM docker.io/centos:7
 
 LABEL org.opencontainers.image.source=https://github.com/timway/tools-for-school
 LABEL org.opencontainers.image.description="An environment containing JCoCo and Python 3.2"
 LABEL org.opencontainers.image.licenses=GPL-2.0-only
 
+# the quay.io/centos/centos:7 image is not well maintained - patch it
+RUN yum upgrade --assumeyes && \
+    yum clean all
 
 # a quality of life package to already exist when working with python
 RUN yum install --assumeyes python-virtualenv && \
