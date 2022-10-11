@@ -1,0 +1,35 @@
+---
+name: Build Container Images for JCoCo
+
+on:
+  push:
+    paths:
+      - jcoco/**
+
+jobs:
+  build-and-push-container-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code from the repository
+        uses: actions/checkout@v1
+
+  login:
+    runs-on: ubuntu-latest
+    steps:
+      - name: login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v3.1.1
+        with:
+          dockerfile: jcoco/Containerfile
+          path: jcoco
+          push: true
+          repository: ${{ github.actor }}/${{ github.repository }}
+          tags: |
+            ghcr.io/${{ github.repository }}:${{ github.ref }}
+            ghcr.io/${{ github.repository }}:latest
