@@ -31,4 +31,4 @@ jobs:
           file: jcoco/Containerfile
           push: true
           tags: |
-            ${{ github.repository }}/jcoco:latest
+            ghcr.io/${{ github.repository }}/jcoco:latest
