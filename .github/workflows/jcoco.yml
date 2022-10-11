@@ -37,6 +37,8 @@ jobs:
         with:
           context: jcoco
           file: jcoco/Containerfile
+          platforms:
+            - linux/amd64,linux/386,linux/arm64,linux/arm/v7,linux/ppc64le
           push: true
           tags: |
             ghcr.io/${{ github.repository }}/jcoco:latest
