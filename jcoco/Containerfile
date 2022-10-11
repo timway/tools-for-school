@@ -1,0 +1,43 @@
+FROM docker.io/centos:7
+
+LABEL org.opencontainers.image.source=https://github.com/timway/tools-for-school
+LABEL org.opencontainers.image.description="An environment containing JCoCo and Python 3.2"
+LABEL org.opencontainers.image.licenses=GPL-2.0-only
+
+# the quay.io/centos/centos:7 image is not well maintained (EoL) - patch it to
+# get the security updates that are available
+RUN yum upgrade --assumeyes && \
+    yum clean all
+
+# a quality of life package to already exist when working with python
+RUN yum install --assumeyes python-virtualenv && \
+    yum clean all
+
+# python 3.2 steps
+RUN yum install --assumeyes bzip2-devel diffutils gcc gcc-c++ gdbm-devel \
+        libstdc++ make ncurses-devel openssl-devel readline-devel \
+        sqlite-devel tcl-devel tk-devel vim xz && \
+    curl https://www.python.org/ftp/python/3.2.6/Python-3.2.6.tar.xz \
+        --output Python-3.2.6.tar.xz && \
+    tar xf Python-3.2.6.tar.xz && \
+    cd Python-3.2.* && \
+    ./configure && make && make install && cd .. && \
+    yum clean all && \
+    rm -rf Python-3.2.*
+
+# install disassembler.py
+RUN cd /usr/local/lib/python3.2/site-packages && \
+    curl https://kentdlee.github.io/JCoCoPages/_build/html/_downloads/disassembler.py \
+      --output disassembler.py \
+      --silent
+
+# jcoco steps
+RUN yum install --assumeyes java-11-openjdk-headless unzip && \
+    curl https://kentdlee.github.io/JCoCoPages/_build/html/_downloads/jcoco.zip \
+        --output jcoco.zip && \
+    mkdir -p /usr/local/share/java && \
+    unzip jcoco.zip JCoCo.jar -d /usr/local/share/java && \
+    yum clean all && \
+    rm jcoco.zip
+
+COPY coco /usr/local/bin/coco
