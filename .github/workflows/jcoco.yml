@@ -5,6 +5,7 @@ on:
   push:
     paths:
       - jcoco/**
+  workflow_dispatch:
 
 jobs:
   build-and-push-container-image:
