@@ -4,8 +4,6 @@ LABEL org.opencontainers.image.source=https://github.com/timway/tools-for-school
 LABEL org.opencontainers.image.description="An environment containing JCoCo and Python 3.2"
 LABEL org.opencontainers.image.licenses=GPL-2.0-only
 
-
-
 # a quality of life package to already exist when working with python
 RUN yum install --assumeyes python-virtualenv && \
     yum clean all

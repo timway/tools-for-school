@@ -9,6 +9,10 @@ on:
 jobs:
   build-and-push-container-image:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      
     steps:
       - name: Get code from the repository
         uses: actions/checkout@v1
@@ -27,4 +31,4 @@ jobs:
           file: jcoco/Containerfile
           push: true
           tags: |
-            ${{ github.repository }}:latest
+            ${{ github.repository }}/jcoco:latest
