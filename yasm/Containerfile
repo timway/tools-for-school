@@ -1,0 +1,8 @@
+FROM registry.fedoraproject.org/fedora:36
+
+LABEL org.opencontainers.image.source=https://github.com/timway/tools-for-school
+LABEL org.opencontainers.image.description="An environment containing YASM and GDB"
+LABEL org.opencontainers.image.licenses=GPL-2.0-only
+
+RUN dnf install --assumeyes gdb yasm && \
+    dnf clean all
